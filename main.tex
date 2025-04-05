@@ -72,7 +72,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Title & Author %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Análisis de parámetros de dispersión en una microcinta}
+\title{Análisis de lineas de transmisión utilizando el Diagrama de Schmidt}
 \author{Luis Guillermo Macias Rojas}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -87,106 +87,78 @@
 
     \fontfamily{phv}\selectfont % Selecting font family
     \noindent
-    \textbf{Resumen:} En este trabajo se presenta un estudio comparativo de los parámetros $S_{11}$ (reflexión) y $S_{21}$ (transmisión)
-    de una microcinta diseñada para operar a 10 GHz entre dos metodologías de simulación: Una basada en el
-    modelado electromagnético de onda completa en Ansys HFSS, que resuelve las ecuaciones de Maxwell de forma rigurosa, y
-    otra utilizando la herramienta ADS (Advanced Design System) de Keysight, que emplea modelos analíticos y aproximaciones
-    cuasi-estáticas para caracterizar la microcinta. Para el modelado del substrato se utilizó un dieléctrico TerraGreen 400G (RF/MW)
-    de Isola Group con una constante dieléctrica de 3.15 y un espesor de 0.254 mm.
+    \textbf{Resumen:} Este estudio exploró el comportamiento de cinco condiciones de carga en líneas de transmisión ($Z_0$) 
+    utilizando el Diagrama de Schmidt, con el objetivo de correlacionar la ubicación de impedancias normalizadas ($z = \frac{Z_L}{Z_0}$)
+    con el coeficiente de reflexión ($\Gamma$). Los casos analizados incluyeron: cortocircuito ($Z_L = 0$), circuito abierto 
+    ($Z_L \to \infty$), acoplamiento perfecto ($Z_L = Z_0$), y cargas resistivas con $Z_L > Z_0$ y $Z_L < Z_0$. El análisis
+    reveló que la posición de $\Gamma$ en el diagrama indica la relación entre $Z_{ref}$ y $Z_0$, mientras que el radio de la circunferencia
+    indica la magnitud de la reflexión (determinada por la relación entre $Z_L$ y $Z_0$).
 
     \noindent\begin{minipage}{0.49\textwidth}   %uses 60% of the page
         {\centering\section*{\large Introducción}}
 
-        En el diseño de circuitos de alta frecuencia, el análisis de parámetros de dispersión (parámetros S) es fundamental para
-        evaluar el desempeño de estructuras como líneas de microcinta. Estos parámetros, en particular $S_{11}$ (pérdida por retorno)
-        y $S_{21}$ (pérdida por inserción), permiten cuantificar las reflexiones y atenuaciones de la señal en función de la
-        frecuencia, aspectos críticos para garantizar la integridad de la señal y la eficiencia energética en aplicaciones como
-        antenas, filtros y diseño de PCBs.
+        El Diagrama de Schmidt es una herramienta gráfica fundamental en el diseño y análisis de circuitos de microondas, 
+        especialmente para trabajar con líneas de transmisión y problemas de acoplamiento de impedancias. Este diagrama permite 
+        visualizar y resolver de manera intuitiva relaciones complejas entre impedancias (o admitancias), coeficientes de 
+        reflexión ($\Gamma$) y parámetros de líneas de transmisión, evitando cálculos matemáticos extensos. $\Gamma$ determina
+        la pérdida por retorno de una línea de transmisión, que es la proporción de la onda reflejada respecto a la onda
+        incidente y está determinanado por la impedancia de carga ($Z_L$) y la impedancia característica de la línea ($Z_0$) 
+        mediante la ecuacion \eqref{eq:gamma}.
+
+        \begin{equation}
+            \Gamma = \frac{Z_L-Z_0}{Z_L+Z_0}
+            \label{eq:gamma}
+        \end{equation}
         
+        La posición de $\Gamma$ en el diagrama indica si la carga está acoplada ($\Gamma$=0), cortocircuitada ($\Gamma$=-1),
+        o en circuito abierto ($\Gamma$=1).
+
         {\centering\section*{\large Metodología}}
 
-        La matriz de dispersión \eqref{s_matrix} describe el comportamiento de redes eléctricas mediante el
-        análisis de ondas incidentes, reflejadas y transmitidas en sus puertos. A diferencia de los parámetros absolutos, como
-        los de impedancia (Z) o los ABCD —que caracterizan propiedades intrínsecas del circuito, como voltajes y corrientes en
-        terminales—, los parámetros S son relativos y dependen de la impedancia utilizada
-        como referencia ($Z_0$).
+        En este trabajo, se analizaron cinco escenarios de carga en una línea de transmisión de impedancia característica $Z_0$,
+         utilizando el Diagrama de Schmidt para visualizar las diferencias en las impedancias normalizadas y los
+          coeficientes de reflexión ($\Gamma$). Los casos incluyeron condiciones extremas (cortocircuito y circuito abierto), 
+          acoplamiento perfecto ($Z_{ref} = Z_{0}$), y cargas resistivas con $Z_{ref} > Z_{0}$ y $Z_{ref} < Z_{0}$. Para cada 
+          caso, se ubicó la impedancia normalizada en el diagrama, se calculó $\Gamma$ y se observó su posición relativa al 
+          centro ($\Gamma$=0).
 
-        \begin{equation}
-            \begin{bmatrix}
-                b_1\\
-                b_2
-            \end{bmatrix}
-            =
-            \begin{bmatrix}
-                S_{11} & S_{12}\\
-                S_{21} & S_{22}
-            \end{bmatrix}
-            \cdot
-            \begin{bmatrix}
-                a_1\\
-                a_2
-            \end{bmatrix}
-            \label{s_matrix}
-        \end{equation}
-
-        En redes eléctricas pasivas de dos puertos y diseñadas como la línea de microcinta en cuestión, los parámetros S cumplen con las
-        propiedades de reciprocidad \eqref{eq:reciprocidad} y simetría \eqref{eq:simetria}. Esto implica que al caracterizar $S_{11}$
-        y $S_{21}$, los valores de $S_{22}$ y $S_{12}$ quedan automáticamente determinados.
-
-        \begin{equation}
-            S_{12}=S_{21}
-            \label{eq:reciprocidad}
-        \end{equation}
-
-        \begin{equation}
-            S_{22}=S_{11}
-            \label{eq:simetria}
-        \end{equation}
-
-        La estructura de microcinta se diseñó en HFSS con el objetivo de obtener 50 $\Omega$ en $Z_0$. Para ello se
-        establecieron los siguientes parámetros con ayuda de la hoja de datos del fabricante del sustrato TerraGreen 400G (RF/MW):
-        
-        \vspace{5 mm}
-
+          Los modelos de linea de transmisión se construyeron utilizando la herramienta ADS (Advanced Design System) de Keysight utilizando
+          una tangente de pérdidas de 0.0001 @ 1 GHz en un rango de frecuencias de 1 MHz hasta 4 GHz, una longitud física de 1000 mil y considerando $Z_0$ = 50 $\Omega$. 
+          Las características de los diferentes escenarios se definen a continuación:
+          \vspace{1cm}
         \begin{itemize}
-            \item Permitividad relativa del dieléctrico: 3.15
-            \item Ancho de la microcinta: 0.6 mm
-            \item Largo de la microcinta: 37.9 mm
-            \item Espesor del sustrato: 0.254 mm
-            \item Espesor del cobre: 17.4 $\mu$m
+            \item Caso 1: $Z_{L} \to \infty$ (circuito abierto)
+            \item Caso 2: $Z_{L} \to 0$ (cortocircuito)
+            \item Caso 3: $Z_{ref} = Z_{0} = Z_{L}$ (carga acoplada)
+            \item Caso 4: $Z_{ref} < Z_{0} (Z_{L} = 100 \Omega, Z_{ref} = 25 \Omega)$ 
+            \item Caso 5: $Z_{ref} > Z_{0} (Z_{L} = 100 \Omega, Z_{ref} = 100 \Omega)$ 
         \end{itemize}
-
-        \vspace{5 mm}
-
-        Una vez simulada la estructura de microcinta en HFSS, se exportaron los parámetros S para compararlos con los
-        obtenidos mediante un modelo de microcinta en ADS.
     \end{minipage}
     \hspace{0.38 cm}
     \begin{minipage}{0.49\textwidth}   %uses 40% of the page
         {\centering\section*{\large Resultados}}
 
-        Los resultados de las simulaciones en HFSS y ADS se presentan en las figuras \ref{fig:s11} y \ref{fig:s21}. La primera
-        muestra la pérdida por retorno $S_{11}$ en función de la frecuencia, mientras que la segunda presenta la pérdida por
-        inserción $S_{21}$. En ambos casos, se observa una buena concordancia entre las simulaciones, con una diferencia
-        máxima de 3.5 dB en $S_{11}$ y 0.8 dB en $S_{21}$.
+        La figura \ref{fig:gamma} muestra el Diagrama de Schmidt, donde se observa la ubicación de $\Gamma$ para los 
+        diferentes casos de impedancia de referencia y carga.
 
-        
-        \includegraphics[width=\textwidth]{figures/s11.png}
-        \captionof{figure}{Pérdida por retorno $S_{11}$ en función de la frecuencia.}
-        \label{fig:s11}
+        \includegraphics[width=\textwidth]{figures/schmidt.png}
+        \captionof{figure}{Diagrama de Schmidt de los 5 casos estudiados.}
+        \label{fig:gamma}
+        \vspace{0.5cm}
 
-        \vspace{5 mm}
+        Las diferencias clave se evidenciaron en la ubicación de los puntos dentro del diagrama: cargas puramente resistivas se alinearon en el eje
+        real, mientras qye condiciones extremas ocuparon los bordes del diagrama ($\Gamma$ = 1). El acoplamiento ($z_{L} = Z_{0}$)
+        se situoo en el centro, sin reflexión ($\Gamma$ = 0), mientras que $Z_{L} > Z_{0}$ y $Z_{L} < Z_{0}$ mostraron $\Gamma$
+        real positivo y negativo respectivamente. La ausencia de componentes reactivasmantuvo todos los casos en el eje real,
+        simplificando la comparación directa de magnitudes.
 
-        \includegraphics[width=\textwidth]{figures/s21.png}
-        \captionof{figure}{Pérdida por inserción $S_{21}$ en función de la frecuencia.}
-        \label{fig:s21}
-        
         {\centering\section*{\large Conclusiones}}
 
-        El análisis comparativo de los parámetros de dispersión de una microcinta en HFSS y ADS permitió validar la
-        aproximación analítica de la herramienta ADS para el diseño de estructuras en alta frecuencia. La buena concordancia
-        entre ambas metodologías sugiere que el modelo de microcinta en ADS ofrece una buena aproximación al simulador de onda
-        completa de HFSS, especialmente para $S_{11}$.
+        El diagrama de Schmidt es una herramienta valiosa para el análisis de circuitos de microondas, permitiendo visualizar
+        relaciones complejas entre impedancias y coeficientes de reflexión. En este estudio, se observaron diferencias significativas en la
+        ubicación de $\Gamma$ para diferentes escenarios de carga; la posición de $\Gamma$ en el diagrama indica la relación entre $Z_{ref}$ y $Z_{0}$,
+        mientras que el radio de la circunferencia indica la magnitud de la reflexión (determinada por la relación entre $Z_{L}$ y $Z_{0}$).
+        La ausencia de componentes reactivas simplificó la comparación entre los casos, permitiendo una evaluación directa de las magnitudes.
     \end{minipage}
-    %\printbibliography  % Print bibliography
+        %\printbibliography  % Print bibliography
 \end{document}
