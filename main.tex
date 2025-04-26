@@ -72,7 +72,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Title & Author %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Análisis de lineas de transmisión utilizando el Diagrama de Schmidt}
+\title{Determinación de la Constante de Propagación en Líneas de Transmisión mediante Análisis Matricial}
 \author{Luis Guillermo Macias Rojas}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -87,78 +87,71 @@
 
     \fontfamily{phv}\selectfont % Selecting font family
     \noindent
-    \textbf{Resumen:} Este estudio exploró el comportamiento de cinco condiciones de carga en líneas de transmisión ($Z_0$) 
-    utilizando el Diagrama de Schmidt, con el objetivo de correlacionar la ubicación de impedancias normalizadas ($z = \frac{Z_L}{Z_0}$)
-    con el coeficiente de reflexión ($\Gamma$). Los casos analizados incluyeron: cortocircuito ($Z_L = 0$), circuito abierto 
-    ($Z_L \to \infty$), acoplamiento perfecto ($Z_L = Z_0$), y cargas resistivas con $Z_L > Z_0$ y $Z_L < Z_0$. El análisis
-    reveló que la posición de $\Gamma$ en el diagrama indica la relación entre $Z_{ref}$ y $Z_0$, mientras que el radio de la circunferencia
-    indica la magnitud de la reflexión (determinada por la relación entre $Z_L$ y $Z_0$).
+    \textbf{Resumen:} Este estudio implementó un método unificado para calcular la constante de propagación compleja ($\gamma = \alpha + j\beta$) en líneas de 
+    transmisión reflectantes y no reflectantes. Mediante el uso de matrices de cascada de onda (WCM) y análisis de valores propios, se resolvió la ambigüedad de signo 
+    en el cálculo de $\gamma$. El método demostró efectividad en el rango de 10 MHz a 10 GHz, utilizando dos líneas de diferente longitud pero igual impedancia 
+    característica ($Z_0 = 50\ \Omega$). Los resultados mostraron continuidad en fase y magnitud de $\gamma$, validando el enfoque propuesto.
 
     \noindent\begin{minipage}{0.49\textwidth}   %uses 60% of the page
         {\centering\section*{\large Introducción}}
 
-        El Diagrama de Schmidt es una herramienta gráfica fundamental en el diseño y análisis de circuitos de microondas, 
-        especialmente para trabajar con líneas de transmisión y problemas de acoplamiento de impedancias. Este diagrama permite 
-        visualizar y resolver de manera intuitiva relaciones complejas entre impedancias (o admitancias), coeficientes de 
-        reflexión ($\Gamma$) y parámetros de líneas de transmisión, evitando cálculos matemáticos extensos. $\Gamma$ determina
-        la pérdida por retorno de una línea de transmisión, que es la proporción de la onda reflejada respecto a la onda
-        incidente y está determinanado por la impedancia de carga ($Z_L$) y la impedancia característica de la línea ($Z_0$) 
-        mediante la ecuacion \eqref{eq:gamma}.
+        La determinación precisa de la constante de propagación compleja ($\gamma$) es fundamental en el diseño de circuitos de microondas. El método tradicional Line-Line utiliza parámetros de dispersión (S) medidos en dos líneas de diferente longitud pero igual $Z_0$. Este trabajo implementó una variante matricial que utiliza la representación de matrices de cascada de onda (WCM) para:
+        
+        \begin{itemize}
+            \item Evitar discontinuidades en fase/magnitud
+            \item Resolver ambigüedades de signo mediante criterios de continuidad
+            \item Calcular $\gamma$ en forma unificada para líneas reflectantes y no reflectantes
+        \end{itemize}
 
+        La relación fundamental viene dada por:
         \begin{equation}
-            \Gamma = \frac{Z_L-Z_0}{Z_L+Z_0}
+            \gamma = \frac{\ln(\lambda)}{\Delta l} \quad \text{con} \quad \lambda = e^{\gamma \Delta l}
             \label{eq:gamma}
         \end{equation}
-        
-        La posición de $\Gamma$ en el diagrama indica si la carga está acoplada ($\Gamma$=0), cortocircuitada ($\Gamma$=-1),
-        o en circuito abierto ($\Gamma$=1).
+        donde $\lambda$ son los valores propios de la matriz $W_1^{-1}W_2$.
 
         {\centering\section*{\large Metodología}}
 
-        En este trabajo, se analizaron cinco escenarios de carga en una línea de transmisión de impedancia característica $Z_0$,
-         utilizando el Diagrama de Schmidt para visualizar las diferencias en las impedancias normalizadas y los
-          coeficientes de reflexión ($\Gamma$). Los casos incluyeron condiciones extremas (cortocircuito y circuito abierto), 
-          acoplamiento perfecto ($Z_{ref} = Z_{0}$), y cargas resistivas con $Z_{ref} > Z_{0}$ y $Z_{ref} < Z_{0}$. Para cada 
-          caso, se ubicó la impedancia normalizada en el diagrama, se calculó $\Gamma$ y se observó su posición relativa al 
-          centro ($\Gamma$=0).
+        El proceso constó de cuatro etapas principales:
 
-          Los modelos de linea de transmisión se construyeron utilizando la herramienta ADS (Advanced Design System) de Keysight utilizando
-          una tangente de pérdidas de 0.0001 @ 1 GHz en un rango de frecuencias de 1 MHz hasta 4 GHz, una longitud física de 1000 mil y considerando $Z_0$ = 50 $\Omega$. 
-          Las características de los diferentes escenarios se definen a continuación:
-          \vspace{1cm}
-        \begin{itemize}
-            \item Caso 1: $Z_{L} \to \infty$ (circuito abierto)
-            \item Caso 2: $Z_{L} \to 0$ (cortocircuito)
-            \item Caso 3: $Z_{ref} = Z_{0} = Z_{L}$ (carga acoplada)
-            \item Caso 4: $Z_{ref} < Z_{0} (Z_{L} = 100 \Omega, Z_{ref} = 25 \Omega)$ 
-            \item Caso 5: $Z_{ref} > Z_{0} (Z_{L} = 100 \Omega, Z_{ref} = 100 \Omega)$ 
-        \end{itemize}
+        \begin{enumerate}
+            \item \textbf{Medición de parámetros S}: Dos líneas con $Z_0 = 50\ \Omega$, longitudes $l_1 = 0.5"$ y $l_2 = 4"$, en el rango 10 MHz - 10 GHz
+            \item \textbf{Conversión a WCM}: Transformación matricial de parámetros S usando:
+            \begin{equation}
+                W = \begin{bmatrix}
+                \frac{S_{12}S_{21}-S_{11}S_{22}}{S_{21}} & \frac{S_{11}}{S_{21}} \\
+                -\frac{S_{22}}{S_{21}} & \frac{1}{S_{21}}
+                \end{bmatrix}
+            \end{equation}
+            \item \textbf{Cálculo de valores propios}: Solución de las ecuaciones cuadráticas:
+            \begin{equation}
+                b_m^2 t_{21} + b_m (t_{22} - t_{11}) - t_{12} = 0
+            \end{equation}
+            \begin{equation}
+                (\frac{a_m}{c_m})^2 t_{21} + (\frac{a_m}{c_m}) (t_{22} - t_{11}) - t_{12} = 0
+            \end{equation}
+            \item \textbf{Selección de valores propios}: Criterio de continuidad de fase usando desenrollado (unwrap)
+        \end{enumerate}
+
+    
+        {\centering\section*{\large Resultados}}
+        Las Figuras \ref{fig:gamma_real} y \ref{fig:gamma_imag} muestran la parte real e imaginaria de $\gamma$ obtenidas respectivamente, demostrando continuidad en 
+        todo el ancho de banda.
+
     \end{minipage}
     \hspace{0.38 cm}
     \begin{minipage}{0.49\textwidth}   %uses 40% of the page
-        {\centering\section*{\large Resultados}}
-
-        La figura \ref{fig:gamma} muestra el Diagrama de Schmidt, donde se observa la ubicación de $\Gamma$ para los 
-        diferentes casos de impedancia de referencia y carga.
-
-        \includegraphics[width=\textwidth]{figures/schmidt.png}
-        \captionof{figure}{Diagrama de Schmidt de los 5 casos estudiados.}
-        \label{fig:gamma}
-        \vspace{0.5cm}
-
-        Las diferencias clave se evidenciaron en la ubicación de los puntos dentro del diagrama: cargas puramente resistivas se alinearon en el eje
-        real, mientras qye condiciones extremas ocuparon los bordes del diagrama ($\Gamma$ = 1). El acoplamiento ($z_{L} = Z_{0}$)
-        se situoo en el centro, sin reflexión ($\Gamma$ = 0), mientras que $Z_{L} > Z_{0}$ y $Z_{L} < Z_{0}$ mostraron $\Gamma$
-        real positivo y negativo respectivamente. La ausencia de componentes reactivasmantuvo todos los casos en el eje real,
-        simplificando la comparación directa de magnitudes.
+        \includegraphics[width=\textwidth]{figures/gamma_real.png}
+        \captionof{figure}{Componente real ($\alpha$) de la constante de propagación.}
+        \label{fig:gamma_real}
+        \includegraphics[width=\textwidth]{figures/gamma_imaginary.png}
+        \captionof{figure}{Componente imaginaria ($\beta$) de la constante de propagación.}
+        \label{fig:gamma_imag}
 
         {\centering\section*{\large Conclusiones}}
-
-        El diagrama de Schmidt es una herramienta valiosa para el análisis de circuitos de microondas, permitiendo visualizar
-        relaciones complejas entre impedancias y coeficientes de reflexión. En este estudio, se observaron diferencias significativas en la
-        ubicación de $\Gamma$ para diferentes escenarios de carga; la posición de $\Gamma$ en el diagrama indica la relación entre $Z_{ref}$ y $Z_{0}$,
-        mientras que el radio de la circunferencia indica la magnitud de la reflexión (determinada por la relación entre $Z_{L}$ y $Z_{0}$).
-        La ausencia de componentes reactivas simplificó la comparación entre los casos, permitiendo una evaluación directa de las magnitudes.
+        El método matricial demostró ventajas como: Eliminar los saltos de fase en 90° y 180° mediante el criterio de continuidad (|B$_{m}$| > |$\frac{a_m}{c_m}$|)
+        y la capacidad para manejar líneas con desacoplamiento severo ($|\Gamma| > 0.7$). La relación entre los valores propios y $\gamma$ permitió una interpretación 
+        física directa: la magnitud de $\lambda$ determina la atenuación ($\alpha$) mientras que su fase codifica la constante de fase ($\beta$).
     \end{minipage}
         %\printbibliography  % Print bibliography
 \end{document}

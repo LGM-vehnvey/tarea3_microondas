@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2025.2.12)  4 APR 2025 21:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2025.2.12)  25 APR 2025 20:49
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1407,13 +1407,21 @@ LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
 (Font)              scaled to size 7.3pt on input line 90.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
 (Font)              scaled to size 5.5pt on input line 90.
-<figures/schmidt.png, id=4, 602.85225pt x 491.436pt>
-File: figures/schmidt.png Graphic file (type png)
-<use figures/schmidt.png>
-Package pdftex.def Info: figures/schmidt.png  used on input line 144.
-(pdftex.def)             Requested size: 264.89812pt x 215.94005pt.
-
-Overfull \hbox (4.24602pt too wide) in paragraph at lines 97--164
+<figures/gamma_real.png, id=4, 462.528pt x 346.896pt>
+File: figures/gamma_real.png Graphic file (type png)
+<use figures/gamma_real.png>
+Package pdftex.def Info: figures/gamma_real.png  used on input line 144.
+(pdftex.def)             Requested size: 264.89812pt x 198.68025pt.
+<figures/gamma_imaginary.png, id=6, 462.528pt x 346.896pt>
+File: figures/gamma_imaginary.png Graphic file (type png)
+<use figures/gamma_imaginary.png>
+Package pdftex.def Info: figures/gamma_imaginary.png  used on input line 147.
+(pdftex.def)             Requested size: 264.89812pt x 198.68025pt.
+LaTeX Font Info:    Trying to load font information for TS1+phv on input line 152.
+(C:\Users\lgmfo\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1phv.fd
+File: ts1phv.fd 2020/03/25 scalable font definitions for TS1/phv.
+)
+Overfull \hbox (4.24602pt too wide) in paragraph at lines 95--157
 $[]$   $[]$ 
  []
 
@@ -1423,7 +1431,7 @@ $[]$   $[]$
 Non-PDF special ignored!
 <special> header=psfrag.pro
 
-{C:/Users/lgmfo/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc} <./figures/schmidt.png>] (c:\INAOE\Electronica_microondas\tarea3_microondas\build\main.aux
+{C:/Users/lgmfo/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc} <./figures/gamma_real.png> <./figures/gamma_imaginary.png>] (c:\INAOE\Electronica_microondas\tarea3_microondas\build\main.aux
 LaTeX Info: Redefining \sptext on input line 11.
 LaTeX Info: Redefining \. on input line 11.
 LaTeX Info: Redefining \% on input line 11.
@@ -1442,17 +1450,17 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 43626 strings out of 473530
- 1011617 string characters out of 5714794
- 2146926 words of memory out of 5000000
- 66145 multiletter control sequences out of 15000+600000
- 599800 words of font info for 131 fonts, out of 8000000 for 9000
+ 43680 strings out of 473530
+ 1012598 string characters out of 5714794
+ 2142981 words of memory out of 5000000
+ 66189 multiletter control sequences out of 15000+600000
+ 605334 words of font info for 140 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,6n,117p,765b,1807s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\lgmfo\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\lgmfo\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\lgmfo\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\lgmfo\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1728.pk><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/NewTXMI.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/cochineal/cochMI.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/cochineal/cochMRM.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txmiaX.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txsys.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb>
-Output written on c:\INAOE\Electronica_microondas\tarea3_microondas\build\main.pdf (1 page, 176143 bytes).
+ 99i,10n,117p,765b,1807s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\lgmfo\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1000.pk> <C:\Users\lgmfo\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\lgmfo\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\lgmfo\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1728.pk><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/NewTXMI.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/cochineal/cochMI.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/cochineal/cochMRM.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txexs.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txmiaX.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txsys.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvb8a.pfb><C:/Users/lgmfo/AppData/Local/Programs/MiKTeX/fonts/type1/urw/helvetic/uhvr8a.pfb>
+Output written on c:\INAOE\Electronica_microondas\tarea3_microondas\build\main.pdf (1 page, 171699 bytes).
 PDF statistics:
- 163 PDF objects out of 1000 (max. 8388607)
+ 176 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 23 words of extra memory for PDF output out of 10000 (max. 10000000)
 
