@@ -26,6 +26,7 @@
 \usepackage{helvet}        % Selecting font family
 \usepackage{ragged2e}      % For text alignment
 \usepackage{adjustbox}       % For defining new environments
+\usepackage{siunitx}         % For SI units
 \usepackage{fancyhdr}       % For defining headers and footers
 \usepackage[cochineal]{newtxmath}
 \usepackage{caption}
@@ -87,71 +88,69 @@
 
     \fontfamily{phv}\selectfont % Selecting font family
     \noindent
-    \textbf{Resumen:} Este estudio implementó un método unificado para calcular la constante de propagación compleja ($\gamma = \alpha + j\beta$) en líneas de 
-    transmisión reflectantes y no reflectantes. Mediante el uso de matrices de cascada de onda (WCM) y análisis de valores propios, se resolvió la ambigüedad de signo 
-    en el cálculo de $\gamma$. El método demostró efectividad en el rango de 10 MHz a 10 GHz, utilizando dos líneas de diferente longitud pero igual impedancia 
-    característica ($Z_0 = 50\ \Omega$). Los resultados mostraron continuidad en fase y magnitud de $\gamma$, validando el enfoque propuesto.
+    \textbf{Resumen:} Este trabajo completa la caracterización de líneas de transmisión mediante: 1) Conversión de parámetros S a ABCD 
+    para obtener $Z_c$, 2) Cálculo de $C$ y $L$ a partir del producto $\gamma Z_c$ (parte real e imaginaria respectivamente), 3) Determinación de $R$ y $G$ mediante ADS, y 4) 
+    Validación con modelo distribuido de $N$ etapas. Los resultados muestran que 32 etapas son suficientes para que el error entre las 
+    mediciones del VNA y los obtenidos por el modelo distribuido sea mínimo.
 
     \noindent\begin{minipage}{0.49\textwidth}   %uses 60% of the page
         {\centering\section*{\large Introducción}}
 
-        La determinación precisa de la constante de propagación compleja ($\gamma$) es fundamental en el diseño de circuitos de microondas. El método tradicional Line-Line utiliza parámetros de dispersión (S) medidos en dos líneas de diferente longitud pero igual $Z_0$. Este trabajo implementó una variante matricial que utiliza la representación de matrices de cascada de onda (WCM) para:
+        Partiendo del trabajo previo donde se obtiene $\gamma$ mediante el metodo unificado, se procede a calcular $Z_c$ utilizando la 
+        ecuación \eqref{eq:Zc_ABCD}; la cual se deriva de la relación entre los parámetros S y ABCD.
         
-        \begin{itemize}
-            \item Evitar discontinuidades en fase/magnitud
-            \item Resolver ambigüedades de signo mediante criterios de continuidad
-            \item Calcular $\gamma$ en forma unificada para líneas reflectantes y no reflectantes
-        \end{itemize}
-
-        La relación fundamental viene dada por:
         \begin{equation}
-            \gamma = \frac{\ln(\lambda)}{\Delta l} \quad \text{con} \quad \lambda = e^{\gamma \Delta l}
-            \label{eq:gamma}
+            Z_c = \sqrt{\frac{B}{C}}
+            \label{eq:Zc_ABCD}
         \end{equation}
-        donde $\lambda$ son los valores propios de la matriz $W_1^{-1}W_2$.
+
+        $Z_c$ es la impedancia característica de la línea de transmisión, que se relaciona con la constante de propagación $\gamma$ a través de la ecuación \eqref{eq:gamma_Zc}.
+        \begin{equation}
+            \gamma = \frac{1}{Z_c}\left(R + j\omega L\right)
+            \label{eq:gamma_Zc}
+        \end{equation}
 
         {\centering\section*{\large Metodología}}
 
-        El proceso constó de cuatro etapas principales:
+        Obteniendo $Z_c$ de la ecuación \eqref{eq:Zc_ABCD}, se procede a calcular $C$ y $L$ a partir del producto $\gamma Z_c$.
+        La relación entre C la parte real de $Z_c$ está dada por la ecuación \eqref{eq:Zc_C}, donde el valor aproximado de Re($Z_c$)
+        es de 60 $\Omega$ según simulaciones de ADS.
 
-        \begin{enumerate}
-            \item \textbf{Medición de parámetros S}: Dos líneas con $Z_0 = 50\ \Omega$, longitudes $l_1 = 0.5"$ y $l_2 = 4"$, en el rango 10 MHz - 10 GHz
-            \item \textbf{Conversión a WCM}: Transformación matricial de parámetros S usando:
-            \begin{equation}
-                W = \begin{bmatrix}
-                \frac{S_{12}S_{21}-S_{11}S_{22}}{S_{21}} & \frac{S_{11}}{S_{21}} \\
-                -\frac{S_{22}}{S_{21}} & \frac{1}{S_{21}}
-                \end{bmatrix}
-            \end{equation}
-            \item \textbf{Cálculo de valores propios}: Solución de las ecuaciones cuadráticas:
-            \begin{equation}
-                b_m^2 t_{21} + b_m (t_{22} - t_{11}) - t_{12} = 0
-            \end{equation}
-            \begin{equation}
-                (\frac{a_m}{c_m})^2 t_{21} + (\frac{a_m}{c_m}) (t_{22} - t_{11}) - t_{12} = 0
-            \end{equation}
-            \item \textbf{Selección de valores propios}: Criterio de continuidad de fase usando desenrollado (unwrap)
-        \end{enumerate}
+        \begin{equation}
+            C = \frac{\beta}{Re(Z_c) \cdot \omega} \approx 80 \, \text{pF}
+            \label{eq:Zc_C}
+        \end{equation}
 
-    
-        {\centering\section*{\large Resultados}}
-        Las Figuras \ref{fig:gamma_real} y \ref{fig:gamma_imag} muestran la parte real e imaginaria de $\gamma$ obtenidas respectivamente, demostrando continuidad en 
-        todo el ancho de banda.
+        Para calcular $L_{\infty}$ se utiliza la ecuación \eqref{eq:Zc_L}, donde el valor de $K_s \approx 0.0006$ como sugiere la Figura
+        \ref{fig:K_s}.
+        \begin{equation}
+            L_{\infty} = L - \frac{K_s}{2\pi \sqrt{f}} \approx 0.3 \, \mu H
+            \label{eq:Zc_L}
+        \end{equation}
+
+        \includegraphics[width=\textwidth]{figures/ks_plot.png}
+        \captionof{figure}{Gráfica de $\frac{K_s}{\sqrt{f}}$ vs $f$ para determinar el valor de $K_s$.}
+        \label{fig:K_s}
+
 
     \end{minipage}
     \hspace{0.38 cm}
     \begin{minipage}{0.49\textwidth}   %uses 40% of the page
-        \includegraphics[width=\textwidth]{figures/gamma_real.png}
-        \captionof{figure}{Componente real ($\alpha$) de la constante de propagación.}
+        Por último, se obtiene $R$ y $G$ en ADS y se determina de manera heurística el número de 
+        etapas mínimo para que los resultados sean similares a los medidos por el VNA.
+        
+        {\centering\section*{\large Resultados}}
+        \includegraphics[width=\textwidth]{figures/magnitud_s11.png}
+        \captionof{figure}{Reflexión (S$_{11}$) de línea de transmisión de 0.5": VNA (azul), modelo de 32 etapas (rojo).}
         \label{fig:gamma_real}
-        \includegraphics[width=\textwidth]{figures/gamma_imaginary.png}
-        \captionof{figure}{Componente imaginaria ($\beta$) de la constante de propagación.}
+        \includegraphics[width=\textwidth]{figures/s21_tarea6.png}
+        \captionof{figure}{Transmisión (S$_{21}$) de línea de transmisión de 0.5": VNA (azul), modelo de 32 etapas (rojo).}
         \label{fig:gamma_imag}
 
         {\centering\section*{\large Conclusiones}}
-        El método matricial demostró ventajas como: Eliminar los saltos de fase en 90° y 180° mediante el criterio de continuidad (|B$_{m}$| > |$\frac{a_m}{c_m}$|)
-        y la capacidad para manejar líneas con desacoplamiento severo ($|\Gamma| > 0.7$). La relación entre los valores propios y $\gamma$ permitió una interpretación 
-        física directa: la magnitud de $\lambda$ determina la atenuación ($\alpha$) mientras que su fase codifica la constante de fase ($\beta$).
-    \end{minipage}
+        El modelo distribuido resulta en una buena aproximación a la línea de transmisión. Se concluye que 32 etapas son suficientes para 
+        que el error entre las mediciones del VNA y los obtenidos por el modelo distribuido sea mínimo. Las aproximaciones de las ecuaciones
+        \eqref{eq:Zc_C} y \eqref{eq:Zc_L} son válidas, pero requieren un ajuste fino heurístico para obtener resultados precisos.
         %\printbibliography  % Print bibliography
+    \end{minipage}
 \end{document}
